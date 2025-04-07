@@ -54,31 +54,43 @@
                 </div>
             </header>
 
+            <!-- Filtros por período -->
+            <div class="flex gap-2 justify-end mb-6">
+                <button class="periodo-btn bg-white text-[var(--neutral-color)] border border-gray-300 shadow-inner px-4 py-2 rounded hover:bg-gray-200 transition" data-periodo="dia" onclick="setPeriodo('dia')">Hoje</button>
+                <button class="periodo-btn bg-white text-[var(--neutral-color)] border border-gray-300 shadow-inner px-4 py-2 rounded hover:bg-gray-200 transition" data-periodo="semana" onclick="setPeriodo('semana')">Semana</button>
+                <button class="periodo-btn bg-white text-[var(--neutral-color)] border border-gray-300 shadow-inner px-4 py-2 rounded hover:bg-gray-200 transition" data-periodo="mes" onclick="setPeriodo('mes')">Mês</button>
+                <button class="periodo-btn bg-white text-[var(--neutral-color)] border border-gray-300 shadow-inner px-4 py-2 rounded hover:bg-gray-200 transition" data-periodo="ano" onclick="setPeriodo('ano')">Ano</button>
+            </div>
+
             <!-- Cards -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
                 <div class="bg-white rounded-xl shadow p-6">
-                    <h3 class="text-sm text-gray-500">Atendimentos Hoje</h3>
-                    <p class="text-2xl font-bold text-[var(--primary-color)]">12</p>
+                    <h3 class="text-sm text-gray-500">Atendimentos</h3>
+                    <p class="text-2xl font-bold text-[var(--primary-color)]" id="atendimentos">12</p>
                 </div>
                 <div class="bg-white rounded-xl shadow p-6">
                     <h3 class="text-sm text-gray-500">Pacientes Atendidos</h3>
-                    <p class="text-2xl font-bold text-[var(--primary-color)]">30</p>
+                    <p class="text-2xl font-bold text-[var(--primary-color)]" id="pacientes">30</p>
                 </div>
                 <div class="bg-white rounded-xl shadow p-6">
                     <h3 class="text-sm text-gray-500">Consultas Agendadas</h3>
-                    <p class="text-2xl font-bold text-[var(--primary-color)]">18</p>
+                    <p class="text-2xl font-bold text-[var(--primary-color)]" id="consultas">18</p>
                 </div>
                 <div class="bg-white rounded-xl shadow p-6">
                     <h3 class="text-sm text-gray-500">Meta Diária</h3>
-                    <p class="text-2xl font-bold text-[var(--primary-color)]">60%</p>
+                    <p class="text-2xl font-bold text-[var(--primary-color)]" id="meta">60%</p>
                 </div>
             </div>
 
-            <!-- Placeholder para gráficos -->
-            <div class="bg-white rounded-xl shadow p-6">
-                <h2 class="text-xl font-semibold mb-4">Gráfico de Atendimentos</h2>
-                <div class="h-64 flex items-center justify-center text-gray-400">
-                    [gráfico ainda não implementado]
+            <!-- Simulação de Gráficos -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-white rounded-xl shadow p-6">
+                    <h2 class="text-xl font-semibold mb-4">Atendimentos por Mês</h2>
+                    <img src="https://placehold.co/500x250/eeeeee/545454?text=Gr%C3%A1fico+Mensal" alt="Gráfico Mensal" class="w-full h-64 object-contain">
+                </div>
+                <div class="bg-white rounded-xl shadow p-6">
+                    <h2 class="text-xl font-semibold mb-4">Tipos de Pacientes</h2>
+                    <img src="https://placehold.co/500x250/eeeeee/545454?text=Gr%C3%A1fico+de+Pizza" alt="Gráfico de Tipos de Pacientes" class="w-full h-64 object-contain">
                 </div>
             </div>
         </main>
@@ -86,6 +98,11 @@
 
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <script>
+        const token = localStorage.getItem("access_token");
+        if (!token) {
+            window.location.href = "/login/";
+        }
+
         const username = localStorage.getItem("username") || "Usuário";
         document.getElementById("user-name").innerText = `Bem-vindo, ${username}!`;
 
@@ -95,6 +112,33 @@
             localStorage.removeItem("username");
             window.location.href = "/login/";
         }
+
+        const periodos = {
+            dia: { atendimentos: 12, pacientes: 30, consultas: 18, meta: "60%" },
+            semana: { atendimentos: 80, pacientes: 150, consultas: 90, meta: "75%" },
+            mes: { atendimentos: 320, pacientes: 600, consultas: 400, meta: "82%" },
+            ano: { atendimentos: 4120, pacientes: 7000, consultas: 4800, meta: "90%" },
+        };
+
+        function setPeriodo(periodo) {
+            const val = periodos[periodo];
+            document.getElementById("atendimentos").innerText = val.atendimentos;
+            document.getElementById("pacientes").innerText = val.pacientes;
+            document.getElementById("consultas").innerText = val.consultas;
+            document.getElementById("meta").innerText = val.meta;
+
+            document.querySelectorAll(".periodo-btn").forEach(btn => {
+                btn.classList.remove("bg-[var(--primary-color)]", "text-white");
+                btn.classList.add("bg-white", "text-[var(--neutral-color)]");
+            });
+            const activeBtn = document.querySelector(`.periodo-btn[data-periodo='${periodo}']`);
+            if (activeBtn) {
+                activeBtn.classList.add("bg-[var(--primary-color)]", "text-white");
+                activeBtn.classList.remove("bg-white", "text-[var(--neutral-color)]");
+            }
+        }
+
+        setPeriodo('dia');
     </script>
 </body>
 
