@@ -8,6 +8,8 @@ def home(request):
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/auth/', include('authentication.urls')),  # Confirme que está correto
-    path('', home),  #Define a rota para "/"
+    path('api/auth/', include('authentication.urls')),  # Confirme que está 
+    path('', include('authentication.urls')),
+    
+    
 ]

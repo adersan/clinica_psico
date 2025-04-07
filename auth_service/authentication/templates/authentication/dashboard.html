@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard - Clínica PSICO+</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --primary-color: #0097B2;
+            --accent-color: #FFE17D; /* amarelo bebê */
+            --neutral-color: #545454;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100 text-[var(--neutral-color)]">
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-[var(--primary-color)] text-white flex flex-col p-6">
+            <h2 class="text-2xl font-bold mb-10">Clínica PSICO+</h2>
+            <nav class="flex-1 space-y-4">
+                <a href="#" class="block py-2 px-4 rounded hover:bg-white hover:text-[var(--primary-color)] transition flex items-center gap-2">
+                    <i class="ph ph-chart-line"></i> Dashboard
+                </a>
+                <a href="#" class="block py-2 px-4 rounded hover:bg-white hover:text-[var(--primary-color)] transition flex items-center gap-2">
+                    <i class="ph ph-user"></i> Pacientes
+                </a>
+                <a href="#" class="block py-2 px-4 rounded hover:bg-white hover:text-[var(--primary-color)] transition flex items-center gap-2">
+                    <i class="ph ph-calendar-check"></i> Consultas
+                </a>
+                <a href="#" class="block py-2 px-4 rounded hover:bg-white hover:text-[var(--primary-color)] transition flex items-center gap-2">
+                    <i class="ph ph-calendar"></i> Agendamento
+                </a>
+                <a href="#" class="block py-2 px-4 rounded hover:bg-white hover:text-[var(--primary-color)] transition flex items-center gap-2">
+                    <i class="ph ph-stethoscope"></i> Profissionais
+                </a>
+                <a href="#" class="block py-2 px-4 rounded hover:bg-white hover:text-[var(--primary-color)] transition flex items-center gap-2">
+                    <i class="ph ph-file-text"></i> Relatórios
+                </a>
+            </nav>
+            <button onclick="logout()" class="mt-auto py-2 px-4 bg-[var(--accent-color)] text-[var(--neutral-color)] rounded hover:bg-yellow-300 transition flex items-center gap-2">
+                <i class="ph ph-sign-out"></i> Sair
+            </button>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 p-10 overflow-y-auto">
+            <header class="flex items-center justify-between mb-6">
+                <h1 class="text-3xl font-bold">Painel de Controle</h1>
+                <div class="flex items-center space-x-4">
+                    <span class="font-medium" id="user-name">Bem-vindo, Usuário!</span>
+                    <img src="https://i.pravatar.cc/40" alt="avatar" class="w-10 h-10 rounded-full border-2 border-[var(--primary-color)]">
+                </div>
+            </header>
+
+            <!-- Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+                <div class="bg-white rounded-xl shadow p-6">
+                    <h3 class="text-sm text-gray-500">Atendimentos Hoje</h3>
+                    <p class="text-2xl font-bold text-[var(--primary-color)]">12</p>
+                </div>
+                <div class="bg-white rounded-xl shadow p-6">
+                    <h3 class="text-sm text-gray-500">Pacientes Atendidos</h3>
+                    <p class="text-2xl font-bold text-[var(--primary-color)]">30</p>
+                </div>
+                <div class="bg-white rounded-xl shadow p-6">
+                    <h3 class="text-sm text-gray-500">Consultas Agendadas</h3>
+                    <p class="text-2xl font-bold text-[var(--primary-color)]">18</p>
+                </div>
+                <div class="bg-white rounded-xl shadow p-6">
+                    <h3 class="text-sm text-gray-500">Meta Diária</h3>
+                    <p class="text-2xl font-bold text-[var(--primary-color)]">60%</p>
+                </div>
+            </div>
+
+            <!-- Placeholder para gráficos -->
+            <div class="bg-white rounded-xl shadow p-6">
+                <h2 class="text-xl font-semibold mb-4">Gráfico de Atendimentos</h2>
+                <div class="h-64 flex items-center justify-center text-gray-400">
+                    [gráfico ainda não implementado]
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script>
+        const username = localStorage.getItem("username") || "Usuário";
+        document.getElementById("user-name").innerText = `Bem-vindo, ${username}!`;
+
+        function logout() {
+            localStorage.removeItem("access_token");
+            localStorage.removeItem("refresh_token");
+            localStorage.removeItem("username");
+            window.location.href = "/login/";
+        }
+    </script>
+</body>
+
+</html>

@@ -5,6 +5,43 @@ from rest_framework import status
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from rest_framework_simplejwt.tokens import RefreshToken, TokenError
+from django.contrib.auth.views import LoginView
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import login
+from django.shortcuts import redirect
+
+def login_view(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        user = authenticate(username=username, password=password)
+
+        if user:
+            login(request, user)
+            return redirect('dashboard')  # Redireciona ao dashboard após login
+        else:
+            return render(request, 'authentication/login.html', {'error': 'Usuário ou senha inválidos'})
+
+    return render(request, 'authentication/login.html')
+
+
+def dashboard_view(request):
+    return render(request, 'authentication/dashboard.html')
+
+from django.shortcuts import render
+
+def register_view(request):
+    return render(request, 'authentication/register.html')
+
+
+class CustomLoginView(LoginView):
+    template_name = 'authentication/login.html'
+
+def home_view(request):
+    return render(request, 'authentication/login.html')
+def login_view(request):
+    return render(request, 'authentication/login.html')
 
 class RegisterView(APIView):#registro 
     def post(self, request):
