@@ -1,0 +1,15 @@
+<div id="modal_novo_paciente" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+  <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+    <h2 class="text-lg font-bold mb-4">Novo Paciente</h2>
+    <form id="form-novo-paciente" class="space-y-4">
+      <input id="novo-nome" placeholder="Nome" required class="w-full border rounded p-2" />
+      <input id="novo-cpf" placeholder="CPF" required class="w-full border rounded p-2" />
+      <input id="novo-email" type="email" placeholder="Email" class="w-full border rounded p-2" />
+      <input id="novo-telefone" placeholder="Telefone" class="w-full border rounded p-2" />
+      <div class="flex justify-end gap-2">
+        <button type="button" onclick="fecharModalNovoPaciente()" class="bg-gray-300 px-4 py-2 rounded">Cancelar</button>
+        <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded">Salvar</button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,32 @@
+
+{% load static %}
+<div id="modalConsulta" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+  <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-lg">
+    <h2 class="text-xl font-semibold mb-4">Nova Consulta</h2>
+    <form id="form-consulta" class="grid grid-cols-1 gap-4">
+      <input type="text" id="paciente" placeholder="Nome do paciente" required class="border px-3 py-2 rounded" />
+      <input type="text" id="profissional" placeholder="Profissional responsável" required class="border px-3 py-2 rounded" />
+      <select id="tipo-consulta" class="border px-3 py-2 rounded">
+        <option value="individual">Individual</option>
+        <option value="grupo">Grupo</option>
+        <option value="avaliacao">Avaliação</option>
+        <option value="retorno">Retorno</option>
+      </select>
+      <textarea id="participantes" placeholder="Participantes (somente para grupo)" class="border px-3 py-2 rounded"></textarea>
+      <input type="date" id="data" required class="border px-3 py-2 rounded" />
+      <input type="time" id="hora" required class="border px-3 py-2 rounded" />
+      <select id="status" class="border px-3 py-2 rounded">
+        <option value="agendada">Agendada</option>
+        <option value="confirmada">Confirmada</option>
+        <option value="realizada">Realizada</option>
+        <option value="cancelada">Cancelada</option>
+      </select>
+      <textarea id="observacoes" placeholder="Observações" class="border px-3 py-2 rounded"></textarea>
+      <div class="flex justify-end gap-2">
+        <button type="button" onclick="fecharModalNovaConsulta()" class="px-4 py-2 rounded bg-gray-300 hover:bg-gray-400">Cancelar</button>
+        <button type="submit" class="btn-permissao-restrita px-4 py-2 rounded bg-blue-600 text-white hover:bg-blue-700">Salvar</button>
+      </div>
+    </form>
+    <div id="form-msg" class="text-center text-sm text-red-500 mt-2"></div>
+  </div>
+</div>

@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -40,6 +41,16 @@
                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm" />
             </div>
 
+            <div>
+                <label for="user_type" class="block text-sm font-medium text-gray-700">Perfil</label>
+                <select id="user_type" name="user_type" required
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm">
+                    <option value="psicologo">Psicólogo</option>
+                    <option value="secretaria">Secretária</option>
+                    <option value="admin">Administrador</option>
+                </select>
+            </div>
+
             <button type="submit"
                     class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 transition">
                 Cadastrar
@@ -80,6 +91,7 @@
                 first_name: document.getElementById("first_name").value,
                 last_name: document.getElementById("last_name").value,
                 password: document.getElementById("password").value,
+                user_type: document.getElementById("user_type").value
             };
 
             try {

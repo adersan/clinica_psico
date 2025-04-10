@@ -1,0 +1,11 @@
+<div id="modal_excluir_paciente" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+  <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-sm">
+    <h2 class="text-lg font-bold mb-4">Confirmar Exclusão</h2>
+    <p class="mb-4 text-gray-600">Tem certeza que deseja excluir este paciente?</p>
+    <input type="hidden" id="excluir-id" />
+    <div class="flex justify-end gap-2">
+      <button type="button" onclick="fecharModalExcluirPaciente()" class="bg-gray-300 px-4 py-2 rounded">Cancelar</button>
+      <button type="button" id="btn-excluir-paciente" class="bg-red-600 text-white px-4 py-2 rounded">Excluir</button>
+    </div>
+  </div>
+</div>

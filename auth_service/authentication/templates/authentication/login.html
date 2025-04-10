@@ -13,13 +13,13 @@
       <div>
         <label for="username" class="block text-sm font-medium text-gray-700">Usuário</label>
         <input type="text" id="username" name="username" required
-          class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" />
+          class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm" />
       </div>
 
       <div>
         <label for="password" class="block text-sm font-medium text-gray-700">Senha</label>
         <input type="password" id="password" name="password" required
-          class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" />
+          class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm" />
       </div>
 
       <div>
@@ -30,24 +30,23 @@
       </div>
     </form>
 
-    <div class="text-center mt-4">
+    <div class="text-center mt-4 space-y-2">
       <p class="text-sm text-gray-600">
         Ainda não tem uma conta?
         <a href="/cadastro/" class="text-indigo-600 hover:text-indigo-800 font-medium transition">
           Cadastre-se aqui
         </a>
       </p>
+
     </div>
   </div>
 
   <!-- Modal de erro -->
-  <div id="error-modal"
-       class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+  <div id="error-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
     <div class="bg-white p-6 rounded-xl shadow-xl w-full max-w-md text-center">
       <h3 class="text-lg font-semibold text-red-600 mb-2">Erro no login</h3>
       <p id="modal-message" class="text-gray-600 mb-4">Usuário ou senha incorretos.</p>
-      <button onclick="closeModal()"
-              class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700">
+      <button onclick="closeModal()" class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700">
         Tentar novamente
       </button>
     </div>
@@ -70,21 +69,34 @@
       const username = document.getElementById("username").value;
       const password = document.getElementById("password").value;
 
-      const response = await fetch("/api/login/", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password })
-      });
+      try {
+        const response = await fetch("/api/login/", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ username, password })
+        });
 
-      const data = await response.json();
+        const data = await response.json();
 
-      if (response.ok) {
-        localStorage.setItem("access_token", data.access);
-        localStorage.setItem("refresh_token", data.refresh);
-        localStorage.setItem("username", username); // salva o nome
-        window.location.href = "/dashboard/";
-      } else {
-        showModal(data.error || "Credenciais inválidas. Tente novamente.");
+        if (response.ok) {
+          localStorage.setItem("access_token", data.access);
+          localStorage.setItem("refresh_token", data.refresh);
+          localStorage.setItem("username", data.username);
+          localStorage.setItem("user_type", data.user_type);
+          window.location.href = "/dashboard/";
+        } else {
+          let message = data.error || "Erro ao fazer login.";
+          if (response.status === 401) {
+            message = "Usuário ou senha inválidos.";
+          } else if (response.status === 403) {
+            message = "Seu cadastro ainda não foi aprovado pelo administrador.";
+          } else if (response.status === 404) {
+            message = "Usuário não encontrado.";
+          }
+          showModal(message);
+        }
+      } catch (err) {
+        showModal("Erro ao conectar com o servidor.");
       }
     });
   </script>

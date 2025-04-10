@@ -9,7 +9,9 @@ def home(request):
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/auth/', include('authentication.urls')),  # Confirme que está 
-    path('', include('authentication.urls')),
+    path('', include('authentication.urls')),  # ← ESSENCIAL
+
+    
     
     
 ]

@@ -1,0 +1,37 @@
+
+{% load static %}
+
+<!-- Agenda de Consultas -->
+<h1 class="text-3xl font-bold text-center mb-8">Agenda de Consultas</h1>
+
+<!-- Botão de Nova Consulta -->
+<div class="text-right mb-4">
+  <button id="btn-nova-consulta" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+    + Nova Consulta
+  </button>
+</div>
+
+
+<!-- Filtros -->
+{% include "authentication/modals/filtros.html" %}
+
+<!-- Calendário -->
+<div id="calendar" class="bg-white shadow rounded-lg p-4 mb-10 w-full h-[600px]"></div>
+
+<!-- Gráficos -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
+  <div class="bg-white p-4 rounded-lg shadow">
+    <h2 class="text-xl font-semibold mb-2">Consultas por Status</h2>
+    <canvas id="graficoStatus"></canvas>
+  </div>
+  <div class="bg-white p-4 rounded-lg shadow">
+    <h2 class="text-xl font-semibold mb-2">Consultas por Dia</h2>
+    <canvas id="graficoDias"></canvas>
+  </div>
+</div>
+
+<!-- Modais -->
+{% include "authentication/modals/modal_nova_consulta.html" %}
+{% include "authentication/modals/modal_detalhes.html" %}
+{% include "authentication/modals/modal_editar_consulta.html" %}
+<script src="{% static 'authentication/js/dashboard_agendamentos.js' %}"></script>

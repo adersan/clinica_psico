@@ -1,0 +1,33 @@
+
+{% load static %}
+<div id="modalEditarConsulta" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+  <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-lg">
+    <h2 class="text-xl font-semibold mb-4">Editar Consulta</h2>
+    <form id="form-editar-consulta" class="grid grid-cols-1 gap-4">
+      <input type="hidden" id="edit-id">
+      <input type="text" id="edit-paciente" required class="border px-3 py-2 rounded" />
+      <input type="text" id="edit-profissional" required class="border px-3 py-2 rounded" />
+      <select id="edit-tipo-consulta" class="border px-3 py-2 rounded">
+        <option value="individual">Individual</option>
+        <option value="grupo">Grupo</option>
+        <option value="avaliacao">Avaliação</option>
+        <option value="retorno">Retorno</option>
+      </select>
+      <textarea id="edit-participantes" class="border px-3 py-2 rounded"></textarea>
+      <input type="date" id="edit-data" required class="border px-3 py-2 rounded" />
+      <input type="time" id="edit-hora" required class="border px-3 py-2 rounded" />
+      <select id="edit-status" class="border px-3 py-2 rounded">
+        <option value="agendada">Agendada</option>
+        <option value="confirmada">Confirmada</option>
+        <option value="realizada">Realizada</option>
+        <option value="cancelada">Cancelada</option>
+      </select>
+      <textarea id="edit-observacoes" class="border px-3 py-2 rounded"></textarea>
+      <div class="flex justify-end gap-2">
+        <button type="button" onclick="fecharModalEditarConsulta()" class="px-4 py-2 rounded bg-gray-300 hover:bg-gray-400">Cancelar</button>
+        <button type="submit" class="btn-permissao-restrita px-4 py-2 rounded bg-green-600 text-white hover:bg-green-700">Salvar Alterações</button>
+      </div>
+    </form>
+    <div id="edit-form-msg" class="text-center text-sm text-red-500 mt-2"></div>
+  </div>
+</div>
