@@ -15,8 +15,16 @@ class Endereco(models.Model):
 
 class Paciente(models.Model):
     TIPO_CHOICES = [
-        ('convencional', 'Convencional'),
-        ('especial', 'Especial'),
+        ('exemplo_01', 'Exemplo_01'),
+        ('exemplo_02', 'Exemplo_02'),
+        ('exemplo_03', 'Exemplo_03'),
+        ('exemplo_04', 'Exemplo_04'),
+        ('exemplo_05', 'Exemplo_05'),
+        #pendete de verificação com especialista 
+        #como será a escolha do tipo de paciente
+       
+        
+                
     ]
 
     SEXO_CHOICES = [

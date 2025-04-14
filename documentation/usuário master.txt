@@ -1,0 +1,9 @@
+>>> admin_user = User.objects.create_user(
+...     username='admin_master', 
+...     password='151214Admin_master',
+...     email='adersan@hotmail.com',
+...     first_name='Aderval Santiago', 
+...     last_name='Leite'
+... )
+
+psql -U psico_user -d psico_db -h localhost

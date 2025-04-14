@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-  aplicarPermissoes();
 
   // Botão para abrir modal de nova consulta
   document.getElementById("btn-nova-consulta")?.addEventListener("click", abrirModalNovaConsulta);

@@ -36,15 +36,12 @@
         <a href="/dashboard/" class="block py-2 px-2 rounded bg-white text-[var(--primary-color)] transition flex items-center gap-2">
           <i class="ph ph-chart-line"></i> <span class="text-label">Dashboard</span>
         </a>
-
-        </a>
-        <a href="#" onclick="carregarConteudo('/dashboard/agendamentos/')" class="block py-2 px-2 rounded hover:bg-white hover:text-[var(--primary-color)] transition flex items-center gap-2">
+        <a href="/dashboard/agendamentos/" class="block py-2 px-2 rounded hover:bg-white hover:text-[var(--primary-color)] transition flex items-center gap-2">
           <i class="ph ph-calendar"></i> <span class="text-label">Agendamento</span>
         </a>
-        <a href="#" onclick="carregarConteudo('/dashboard/pacientes/')" class="block py-2 px-2 rounded hover:bg-white hover:text-[var(--primary-color)] transition flex items-center gap-2">
-        <i class="ph ph-user"></i> <span class="text-label">Pacientes</span>
+        <a href="/dashboard/pacientes/" class="block py-2 px-2 rounded hover:bg-white hover:text-[var(--primary-color)] transition flex items-center gap-2">
+          <i class="ph ph-user"></i> <span class="text-label">Pacientes</span>
         </a>
-
         <a href="#" class="block py-2 px-2 rounded hover:bg-white hover:text-[var(--primary-color)] transition flex items-center gap-2">
           <i class="ph ph-calendar-check"></i> <span class="text-label">Consultas</span>
         </a>
@@ -54,9 +51,7 @@
         <a href="#" class="block py-2 px-2 rounded hover:bg-white hover:text-[var(--primary-color)] transition flex items-center gap-2">
           <i class="ph ph-file-text"></i> <span class="text-label">Relatórios</span>
         </a>
-        <!-- VISÍVEL APENAS PARA ADMIN -->
-        <a href="/gestao/aprovacao/" id="admin-aprovacao-link"
-          class="block py-2 px-2 rounded hover:bg-white hover:text-[var(--primary-color)] transition flex items-center gap-2 hidden">
+        <a href="/gestao/aprovacao/" id="admin-aprovacao-link" class="block py-2 px-2 rounded hover:bg-white hover:text-[var(--primary-color)] transition flex items-center gap-2 hidden">
           <i class="ph ph-check-square"></i> <span class="text-label">Aprovar Usuários</span>
         </a>
       </nav>
@@ -75,49 +70,51 @@
         </div>
       </header>
 
-      <div id="conteudo-principal">
-        <!-- Conteúdo do dashboard padrão -->
-        <div id="dashboard-conteudo">
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
-            <div class="bg-white rounded-xl shadow p-6">
-              <h3 class="text-sm text-gray-500">Atendimentos</h3>
-              <p class="text-2xl font-bold text-[var(--primary-color)]" id="atendimentos">12</p>
-            </div>
-            <div class="bg-white rounded-xl shadow p-6">
-              <h3 class="text-sm text-gray-500">Pacientes Atendidos</h3>
-              <p class="text-2xl font-bold text-[var(--primary-color)]" id="pacientes">30</p>
-            </div>
-            <div class="bg-white rounded-xl shadow p-6">
-              <h3 class="text-sm text-gray-500">Consultas Agendadas</h3>
-              <p class="text-2xl font-bold text-[var(--primary-color)]" id="consultas">18</p>
-            </div>
-            <div class="bg-white rounded-xl shadow p-6">
-              <h3 class="text-sm text-gray-500">Meta Diária</h3>
-              <p class="text-2xl font-bold text-[var(--primary-color)]" id="meta">60%</p>
-            </div>
+      <!-- Botões de Período -->
+     <div class="flex justify-end mb-6 gap-2">
+      <button class="filtro-periodo bg-blue-600 text-white px-3 py-1 rounded" data-periodo="dia">Dia</button>
+      <button class="filtro-periodo bg-gray-100 text-gray-800 px-3 py-1 rounded" data-periodo="semana">Semana</button>
+      <button class="filtro-periodo bg-gray-100 text-gray-800 px-3 py-1 rounded" data-periodo="mes">Mês</button>
+      <button class="filtro-periodo bg-gray-100 text-gray-800 px-3 py-1 rounded" data-periodo="ano">Ano</button>
+    </div>
+
+
+
+      <!-- Conteúdo do Dashboard -->
+      <div id="dashboard-conteudo">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+          <div class="bg-white rounded-xl shadow p-6">
+            <h3 class="text-sm text-gray-500">Atendimentos</h3>
+            <p class="text-2xl font-bold text-[var(--primary-color)]" id="atendimentos">12</p>
           </div>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div class="bg-white rounded-xl shadow p-6">
-              <h2 class="text-xl font-semibold mb-4">Atendimentos por Mês</h2>
-              <img src="https://placehold.co/500x250/eeeeee/545454?text=Gráfico+Mensal" alt="Gráfico Mensal" class="w-full h-64 object-contain">
-            </div>
-            <div class="bg-white rounded-xl shadow p-6">
-              <h2 class="text-xl font-semibold mb-4">Tipos de Pacientes</h2>
-              <img src="https://placehold.co/500x250/eeeeee/545454?text=Gráfico+de+Pizza" alt="Gráfico de Tipos de Pacientes" class="w-full h-64 object-contain">
-            </div>
+          <div class="bg-white rounded-xl shadow p-6">
+            <h3 class="text-sm text-gray-500">Pacientes Atendidos</h3>
+            <p class="text-2xl font-bold text-[var(--primary-color)]" id="pacientes">30</p>
+          </div>
+          <div class="bg-white rounded-xl shadow p-6">
+            <h3 class="text-sm text-gray-500">Consultas Agendadas</h3>
+            <p class="text-2xl font-bold text-[var(--primary-color)]" id="consultas">18</p>
+          </div>
+          <div class="bg-white rounded-xl shadow p-6">
+            <h3 class="text-sm text-gray-500">Meta Diária</h3>
+            <p class="text-2xl font-bold text-[var(--primary-color)]" id="meta">60%</p>
+          </div>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="bg-white rounded-xl shadow p-6">
+            <h2 class="text-xl font-semibold mb-4">Atendimentos por Mês</h2>
+            <img src="https://placehold.co/500x250/eeeeee/545454?text=Gráfico+Mensal" alt="Gráfico Mensal" class="w-full h-64 object-contain">
+          </div>
+          <div class="bg-white rounded-xl shadow p-6">
+            <h2 class="text-xl font-semibold mb-4">Tipos de Pacientes</h2>
+            <img src="https://placehold.co/500x250/eeeeee/545454?text=Gráfico+de+Pizza" alt="Gráfico de Tipos de Pacientes" class="w-full h-64 object-contain">
           </div>
         </div>
       </div>
     </main>
   </div>
 
-<!-- Scripts base -->
-<script src="https://unpkg.com/@phosphor-icons/web"></script>
-<script src="{% static 'authentication/js/dashboard_main.js' %}"></script>
-<script src="{% static 'authentication/js/carregar_aprovacao.js' %}"></script>
-
-<!-- Aqui será carregado dinamicamente o script da tela atual -->
-<div id="script-dinamico"></div>
-
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <script src="{% static 'authentication/js/dashboard_main.js' %}"></script>
 </body>
 </html>

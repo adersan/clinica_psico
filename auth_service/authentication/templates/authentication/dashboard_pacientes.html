@@ -1,14 +1,18 @@
 {% load static %}
 
-<div class="p-4">
+<!-- Conteúdo da tela de Pacientes -->
+<div id="tela-pacientes" class="p-6">
+
   <h2 class="text-2xl font-bold mb-4 text-gray-800">Gerenciamento de Pacientes</h2>
 
+  <!-- Botão novo paciente -->
   <div class="mb-4">
     <button onclick="abrirModalNovoPaciente()" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
       + Novo Paciente
     </button>
   </div>
 
+  <!-- Tabela -->
   <div class="overflow-x-auto">
     <table class="min-w-full mt-4 bg-white rounded shadow">
       <thead>
@@ -21,17 +25,17 @@
         </tr>
       </thead>
       <tbody id="pacientes-tbody">
-        <!-- Linhas inseridas via JavaScript -->
+        <!-- Preenchido dinamicamente pelo JS -->
       </tbody>
     </table>
   </div>
+
+  <!-- Modais -->
+  {% include 'authentication/modals/modal_novo_paciente.html' %}
+  {% include 'authentication/modals/modal_editar_paciente.html' %}
+  {% include 'authentication/modals/modal_excluir_paciente.html' %}
+
 </div>
 
-<!-- Inclusão dos modais -->
-{% include 'authentication/modals/modal_novo_paciente.html' %}
-{% include 'authentication/modals/modal_editar_paciente.html' %}
-{% include 'authentication/modals/modal_excluir_paciente.html' %}
-
-<!-- Script JS -->
+<!-- Script dedicado desta tela -->
 <script src="{% static 'authentication/js/dashboard_pacientes.js' %}"></script>
-
