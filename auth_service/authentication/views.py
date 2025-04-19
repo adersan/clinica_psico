@@ -1,68 +1,70 @@
-#views.py localizado na pasta authentication, que é a pasta de autenticação do sistema, onde estão as views de autenticação do sistema.
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, login
 from rest_framework_simplejwt.tokens import RefreshToken, TokenError
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import login
-from django.shortcuts import redirect
-from rest_framework import status
-from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework_simplejwt.authentication import JWTAuthentication
+from .models import UserProfile
 
+# Dashboard de agendamentos
+@login_required(login_url='/login/')
 def dashboard_agendamentos(request):
     return render(request, 'authentication/dashboard_agendamentos.html')
 
+# Dashboard de pacientes
 @login_required(login_url='/login/')
 def dashboard_pacientes(request):
     return render(request, 'authentication/dashboard_pacientes.html')
 
+# Tela de login com validação
 def login_view(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
-
         user = authenticate(username=username, password=password)
 
         if user:
             login(request, user)
-            return redirect('dashboard')  # Redireciona ao dashboard após login
+            return redirect('dashboard')
         else:
             return render(request, 'authentication/login.html', {'error': 'Usuário ou senha inválidos'})
 
     return render(request, 'authentication/login.html')
 
-
+# Tela do dashboard padrão
+@login_required(login_url='/login/')
 def dashboard_view(request):
     return render(request, 'authentication/dashboard.html')
 
-from django.shortcuts import render
-
+# Tela de cadastro de usuário visual (HTML)
 def register_view(request):
     return render(request, 'authentication/register.html')
 
-
+# View para autenticação baseada em template
 class CustomLoginView(LoginView):
     template_name = 'authentication/login.html'
 
+# Página inicial
 def home_view(request):
     return render(request, 'authentication/login.html')
-def login_view(request):
-    return render(request, 'authentication/login.html')
 
-class RegisterView(APIView):  # registro com perfil
+# API de cadastro de usuários (aberta)
+class RegisterView(APIView):
+    permission_classes = [AllowAny]
+
     def post(self, request):
         username = request.data.get('username')
         password = request.data.get('password')
         email = request.data.get('email')
         first_name = request.data.get('first_name')
         last_name = request.data.get('last_name')
-        user_type = request.data.get('user_type', 'psicologo')  # padrão: psicólogo
+        user_type = request.data.get('user_type', 'psicologo')
 
         if User.objects.filter(username=username).exists():
             return Response({'error': 'Usuário já existe!'}, status=status.HTTP_400_BAD_REQUEST)
@@ -75,11 +77,14 @@ class RegisterView(APIView):  # registro com perfil
             last_name=last_name
         )
 
-
+        UserProfile.objects.create(user=user, user_type=user_type)
 
         return Response({'message': 'Usuário criado com sucesso!'}, status=status.HTTP_201_CREATED)
 
-class LoginView(APIView):  # login com validação de perfil ativo
+# API de login com retorno do token JWT
+class LoginView(APIView):
+    permission_classes = [AllowAny]
+
     def post(self, request):
         username = request.data.get('username')
         password = request.data.get('password')
@@ -88,7 +93,6 @@ class LoginView(APIView):  # login com validação de perfil ativo
 
         if user is None:
             return Response({'error': 'Credenciais inválidas!'}, status=status.HTTP_401_UNAUTHORIZED)
-
 
         refresh = RefreshToken.for_user(user)
         user_type = user.profile.user_type if hasattr(user, 'profile') else 'desconhecido'
@@ -99,7 +103,9 @@ class LoginView(APIView):  # login com validação de perfil ativo
             'username': user.username,
             'user_type': user_type
         })
-class LogoutView(APIView): #logout
+
+# API de logout com blacklist do refresh token
+class LogoutView(APIView):
     def post(self, request):
         refresh_token = request.data.get('refresh')
 
@@ -114,10 +120,8 @@ class LogoutView(APIView): #logout
             return Response({'error': 'Token inválido ou já expirado!'}, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
             return Response({'error': f'Erro inesperado: {str(e)}'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-        
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import redirect, render
 
+# View protegida para aprovação de usuários (somente admin)
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def aprovar_usuarios_view(request):
@@ -131,11 +135,3 @@ def aprovar_usuarios_view(request):
         return Response({'detail': 'Acesso negado. Apenas administradores podem acessar esta área.'}, status=status.HTTP_403_FORBIDDEN)
 
     return render(request, 'authentication/partials/aprovacao_parcial.html')
-
-
-
-# Create your views here.
-
-
-def dashboard_pacientes(request):
-    return render(request, 'authentication/dashboard_pacientes.html')
