@@ -117,10 +117,14 @@ STATIC_URL = 'static/'
 # ID padrão
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = os.getenv('EMAIL_HOST')  # ou o servidor SMTP que você usar
-EMAIL_PORT = os.getenv('EMAIL_PORT')  # Porta padrão para TLS
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = os.getenv('EMAIL_USER')  # Coloque no .env
-EMAIL_HOST_PASSWORD = os.getenv('EMAIL_PASSWORD')  # Coloque no .env
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+# Configurações de envio de e-mail
+EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST='smtp.gmail.com'
+EMAIL_HOST_USER='aderval.santiago@gmail.com'
+EMAIL_HOST_PASSWORD='euwuhxdidpbgynhh'
+EMAIL_PORT='587'
+EMAIL_USE_TLS='True'
+DEFAULT_FROM_EMAIL='no-reply@psicoplus.com'
+
+
+

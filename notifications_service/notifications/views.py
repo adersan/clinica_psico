@@ -6,26 +6,37 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from .models import Notificacao
 from .serializers import NotificacaoSerializer
-from django.core.mail import send_mail
 from django.conf import settings
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import AllowAny
+from django.core.mail import send_mail
+from django.core.mail import EmailMessage, get_connection
+import logging
 
-# Função auxiliar para envio de e-mail
+logger = logging.getLogger(__name__)
+
 def enviar_email(destino, assunto, mensagem):
     try:
-        send_mail(
+        logger.info(f"[INFO] Enviando e-mail para {destino}...")
+
+        connection = get_connection()
+        connection.open()
+
+        email = EmailMessage(
             subject=assunto,
-            message=mensagem,
+            body=mensagem,
             from_email=settings.DEFAULT_FROM_EMAIL,
-            recipient_list=[destino],
-            fail_silently=False,
+            to=[destino],
+            connection=connection
         )
+
+        email.send()
+        connection.close()
         return True
     except Exception as e:
-        print(f"[ERRO EMAIL]: {e}")
+        logger.error("[ERRO EMAIL]: %s", str(e))
         return False
 
-
-# Listagem e criação de notificações
 class NotificacaoListCreateView(generics.ListCreateAPIView):
     queryset = Notificacao.objects.all()
     serializer_class = NotificacaoSerializer
@@ -45,14 +56,12 @@ class NotificacaoListCreateView(generics.ListCreateAPIView):
                 notificacao.save()
 
 
-# Detalhes, atualização e exclusão
 class NotificacaoRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Notificacao.objects.all()
     serializer_class = NotificacaoSerializer
     permission_classes = [IsAuthenticated]
 
 
-# Envio específico via WhatsApp (WAHA)
 class EnviarWhatsappView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -61,10 +70,8 @@ class EnviarWhatsappView(APIView):
         mensagem = request.data.get("mensagem")
 
         if not numero or not mensagem:
-            return Response(
-                {"error": "Número e mensagem são obrigatórios."},
-                status=status.HTTP_400_BAD_REQUEST
-            )
+            return Response({"error": "Número e mensagem são obrigatórios."},
+                            status=status.HTTP_400_BAD_REQUEST)
 
         payload = {
             "phone": numero,
@@ -81,13 +88,8 @@ class EnviarWhatsappView(APIView):
             if response.status_code == 200:
                 return Response({"success": "Mensagem enviada com sucesso via WAHA."})
             else:
-                return Response({
-                    "error": "Erro ao enviar via WAHA.",
-                    "detail": response.text
-                }, status=response.status_code)
-
+                return Response({"error": "Erro ao enviar via WAHA.", "detail": response.text},
+                                status=response.status_code)
         except requests.exceptions.RequestException as e:
-            return Response({
-                "error": "Erro de conexão com WAHA.",
-                "detail": str(e)
-            }, status=status.HTTP_502_BAD_GATEWAY)
+            return Response({"error": "Erro de conexão com WAHA.", "detail": str(e)},
+                            status=status.HTTP_502_BAD_GATEWAY)

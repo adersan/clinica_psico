@@ -7,3 +7,6 @@
 ... )
 
 psql -U psico_user -d psico_db -h localhost
+
+
+SENHA GERADA euwuhxdidpbgynhh
