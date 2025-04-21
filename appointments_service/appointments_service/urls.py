@@ -8,5 +8,5 @@ def home(request):
 urlpatterns = [
     path('', home),  # ← adiciona uma resposta simples na raiz
     path('admin/', admin.site.urls),
-    path('api/', include('appointments.urls')),
+    path('api/appointments/', include('appointments.urls')),
 ]

@@ -61,7 +61,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'patients',
     'django_filters',
-    'appointments',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [

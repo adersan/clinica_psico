@@ -3,6 +3,6 @@ from .models import Consulta
 
 @admin.register(Consulta)
 class ConsultaAdmin(admin.ModelAdmin):
-    list_display = ('paciente', 'profissional', 'data', 'hora', 'status')
-    search_fields = ('paciente', 'profissional')
-    list_filter = ('status', 'data')
+    list_display = ['id', 'paciente_id', 'profissional_id', 'data', 'hora', 'status']
+    list_filter = ['status', 'data']
+    search_fields = ['paciente_id', 'profissional_id', 'nome_convenio']

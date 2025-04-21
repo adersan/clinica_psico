@@ -1,4 +1,30 @@
+
 {% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>agendamentos - Clínica PSICO+</title>
+  <link href="{% static 'css/style.css' %}" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
+      --primary-color: #0097B2;
+      --accent-color: #FFE17D;
+      --neutral-color: #545454;
+    }
+
+    .sidebar-collapsed {
+      width: 64px !important;
+    }
+    .sidebar-collapsed .text-label {
+      display: none;
+    }
+    .hidden-title {
+      display: none;
+    }
+  </style>
+</head>
 
 <!-- Conteúdo da tela de Agendamentos -->
 <div id="tela-agendamentos" class="p-6">

@@ -7,22 +7,19 @@ class ConsultaSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     def validate(self, data):
-        profissional = data.get('profissional')
+        profissional_id = data.get('profissional_id')
         data_consulta = data.get('data')
         hora_consulta = data.get('hora')
 
+        conflitos = Consulta.objects.filter(
+            profissional_id=profissional_id,
+            data=data_consulta,
+            hora=hora_consulta
+)
+
+
         if self.instance:
-            conflitos = Consulta.objects.filter(
-                profissional=profissional,
-                data=data_consulta,
-                hora=hora_consulta
-            ).exclude(pk=self.instance.pk)
-        else:
-            conflitos = Consulta.objects.filter(
-                profissional=profissional,
-                data=data_consulta,
-                hora=hora_consulta
-            )
+            conflitos = conflitos.exclude(pk=self.instance.pk)
 
         if conflitos.exists():
             raise serializers.ValidationError("Já existe uma consulta marcada com este profissional neste horário.")

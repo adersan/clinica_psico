@@ -8,5 +8,5 @@ def home(request):
 urlpatterns = [
     path('', home),
     path('admin/', admin.site.urls),
-    path('api/profissionais/', include('professionals.urls')),
+    path('api/', include('professionals.urls')),  # <- Certifique-se disso
 ]
